@@ -14,21 +14,23 @@ export class HomePage implements OnInit, OnDestroy {
   constructor(private taskService: TaskService) {}
 
   ngOnInit(): void {
-    this.taskService.getTask().subscribe((task) => {
-      this.tasks = this.tasks.concat(...task);
-    });
+    this.tasks = this.taskService._task;
   }
 
-  ngOnDestroy(): void {}
-
-  public openModal() {
+  public setModal() {
     this.isModalOpen = !this.isModalOpen;
   }
 
   public editTask(id: number) {}
 
   public deleteTask(id: number) {
-    this.taskService.removeTask(id);
-    
+    this.taskService.deleteTask(id);
   }
+
+  onTaskSave(task: any) {
+    this.taskService.addTask(task as Task);
+    this.setModal();
+  }
+
+  ngOnDestroy(): void {}
 }

@@ -9,40 +9,33 @@
     <ion-toolbar>
       <ion-title size="large">TODO APP</ion-title>
 
-      <h2>LIST</h2>
+      <!-- LIST OF TASKS -->
       <ion-grid>
         <ion-row *ngFor="let task of tasks">
           <ion-col> {{task?.id}} </ion-col>
           <ion-col> {{task?.title}} </ion-col>
           <ion-col> {{task?.date | date}} </ion-col>
-          
+
           <ion-button (click)="editTask(task.id)">Edit</ion-button>
           <ion-button (click)="deleteTask(task.id)">Delete</ion-button>
         </ion-row>
       </ion-grid>
 
+      <!-- ADD NEW TASK BUTTON-->
+      <ion-button class="ion-float-right" (click)="setModal()" color="primary">
+        <ion-icon name="add-circle-outline"></ion-icon>
+      </ion-button>
+
       <ion-modal [isOpen]="isModalOpen">
         <ng-template>
-          <ion-header>
-            <ion-toolbar>
-              <ion-title>Task Modal</ion-title>
-              <ion-buttons slot="end">
-                <ion-button (click)="openModal()">Cerrar</ion-button>
-              </ion-buttons>
-            </ion-toolbar>
-          </ion-header>
-
           <div class="ion-padding">
-            <app-add-task></app-add-task>
+            <app-task-form
+              (closeModalEmitter)="setModal()"
+              (taskEventEmitter)="onTaskSave($event)"
+            ></app-task-form>
           </div>
         </ng-template>
       </ion-modal>
     </ion-toolbar>
   </ion-header>
 </ion-content>
-
-<ion-footer>
-  <ion-button class="ion-float-right" (click)="openModal()" color="primary">
-    <ion-icon name="add-circle-outline"></ion-icon>
-  </ion-button>
-</ion-footer>
