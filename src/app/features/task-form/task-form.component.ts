@@ -10,7 +10,7 @@ import { Task } from '../../core/models/task.model';
 })
 export class TaskFormComponent implements OnInit {
   public taskForm!: FormGroup;
-  @Input() selectedTask!: Task;
+  @Input() selectedTask!: Task | undefined;
   @Output() taskEventEmitter = new EventEmitter();
   @Output() closeModalEmitter = new EventEmitter();
 
@@ -21,8 +21,15 @@ export class TaskFormComponent implements OnInit {
 
   ngOnInit() {
     this.taskForm = this.setupTaskForm();
-    console.log("ON INIT", this.selectedTask)
-    this.taskForm.patchValue(this.selectedTask);
+    const id = this.taskForm.get('id');
+    console.log(this.selectedTask);
+    if (this.selectedTask) {
+      id?.disable();
+      this.taskForm.patchValue(this.selectedTask);
+    } else {
+      id?.enable();
+    }
+    this.taskForm.updateValueAndValidity();
   }
 
   private setupTaskForm() {
@@ -31,10 +38,6 @@ export class TaskFormComponent implements OnInit {
       title: [null, Validators.required],
       date: [null, Validators.required],
     });
-  }
-
-  public addNewTask() {
-    const newTask = this.taskForm.value;
   }
 
   closeModal() {
