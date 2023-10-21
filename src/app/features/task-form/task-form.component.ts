@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TaskService } from '../../core/services/task.service';
 import { Task } from '../../core/models/task.model';
 
 @Component({
-  selector: 'app-add-task',
-  templateUrl: './add-task.component.html',
-  styleUrls: ['./add-task.component.scss'],
+  selector: 'app-task-form',
+  templateUrl: './task-form.component.html',
+  styleUrls: ['./task-form.component.scss'],
 })
-export class AddTaskComponent implements OnInit {
+export class TaskFormComponent implements OnInit {
   public taskForm!: FormGroup;
+  @Input() selectedTask!: Task;
+  @Output() taskEventEmitter = new EventEmitter();
+  @Output() closeModalEmitter = new EventEmitter();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -18,6 +21,8 @@ export class AddTaskComponent implements OnInit {
 
   ngOnInit() {
     this.taskForm = this.setupTaskForm();
+    console.log("ON INIT", this.selectedTask)
+    this.taskForm.patchValue(this.selectedTask);
   }
 
   private setupTaskForm() {
@@ -30,9 +35,13 @@ export class AddTaskComponent implements OnInit {
 
   public addNewTask() {
     const newTask = this.taskForm.value;
-
-    this.taskService.saveTask(newTask);
   }
 
-  public editTask() {}
+  closeModal() {
+    this.closeModalEmitter.emit();
+  }
+
+  emitTask() {
+    this.taskEventEmitter.emit(this.taskForm.value);
+  }
 }

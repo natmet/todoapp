@@ -5,8 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
-import { AddTaskComponent } from '../features/add-task/add-task.component';
-import { TaskService } from '../core/services/task.service';
+import { TaskFormComponent } from '../features/task-form/task-form.component';
 
 
 @NgModule({
@@ -17,6 +16,6 @@ import { TaskService } from '../core/services/task.service';
     HomePageRoutingModule,
     ReactiveFormsModule
   ],
-  declarations: [HomePage, AddTaskComponent]
+  declarations: [HomePage, TaskFormComponent]
 })
 export class HomePageModule {}
