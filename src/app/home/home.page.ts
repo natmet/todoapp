@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TaskService } from '../core/services/task.service';
 import { Task } from '../core/models/task.model';
-import { ModalController } from '@ionic/angular';
-import { TaskFormComponent } from '../features/task-form/task-form.component';
 
 @Component({
   selector: 'app-home',
@@ -12,19 +10,16 @@ import { TaskFormComponent } from '../features/task-form/task-form.component';
 export class HomePage implements OnInit, OnDestroy {
   public tasks: Task[] = [];
   public isModalOpen = false;
-  public taskToEdit!: Task;
+  public taskToEdit!: Task | undefined;
 
-  constructor(
-    private taskService: TaskService,
-    private modalController: ModalController
-  ) {}
+  constructor(private taskService: TaskService) {}
 
   ngOnInit(): void {
     this.tasks = this.taskService._task;
   }
 
   public addTask() {
-    this.taskToEdit = {} as Task;
+    this.taskToEdit = undefined;
     this.setModal();
   }
 
@@ -34,9 +29,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   public editTask(id: number) {
     const selectedTask = this.tasks.find((task) => task.id === id);
-
     this.taskToEdit = selectedTask as Task;
-
     this.setModal();
   }
 
@@ -48,6 +41,7 @@ export class HomePage implements OnInit, OnDestroy {
   onTaskSave(task: any) {
     this.taskService.addTask(task as Task);
     this.setModal();
+    this.tasks = this.taskService._task;
   }
 
   ngOnDestroy(): void {}

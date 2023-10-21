@@ -20,13 +20,15 @@ export class TaskService {
 
   constructor() {}
 
-  public deleteTask(id: number){
-    this.tasks = this.tasks.filter(task => task.id !== id)
+  public deleteTask(id: number) {
+    this.tasks = this.tasks.filter((task) => task.id !== id);
   }
 
-  public addTask(task: Task) {
+  //Add and Edit
+  public addTask(taskToSave: Task) {
+    const taskExist = this.tasks.find((task) => task.id === task.id);
+    const task = { ...taskExist, ...taskToSave };
+    if (taskExist) this.deleteTask(taskExist.id);
     this.tasks.push(task);
   }
-
-  public editTask(task: Task) {}
 }
