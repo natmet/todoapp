@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
-import { TaskFormComponent } from '../features/add-task/task-form.component';
+import { TaskFormComponent } from '../features/task-form/task-form.component';
 
 
 @NgModule({

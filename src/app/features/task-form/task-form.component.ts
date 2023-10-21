@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TaskService } from '../../core/services/task.service';
 import { Task } from '../../core/models/task.model';
@@ -10,6 +10,7 @@ import { Task } from '../../core/models/task.model';
 })
 export class TaskFormComponent implements OnInit {
   public taskForm!: FormGroup;
+  @Input() selectedTask!: Task;
   @Output() taskEventEmitter = new EventEmitter();
   @Output() closeModalEmitter = new EventEmitter();
 
@@ -20,6 +21,8 @@ export class TaskFormComponent implements OnInit {
 
   ngOnInit() {
     this.taskForm = this.setupTaskForm();
+    console.log("ON INIT", this.selectedTask)
+    this.taskForm.patchValue(this.selectedTask);
   }
 
   private setupTaskForm() {

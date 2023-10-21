@@ -12,10 +12,9 @@ const initialValue = {
   providedIn: 'root',
 })
 export class TaskService {
-  private tasks: Task[] = [];
+  private tasks: Task[] = [initialValue];
 
   get _task() {
-    console.log("getter called");
     return this.tasks;
   }
 
